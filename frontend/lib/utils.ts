@@ -68,7 +68,8 @@ export enum ResultCode {
   UserAlreadyExists = 'USER_ALREADY_EXISTS',
   UnknownError = 'UNKNOWN_ERROR',
   UserCreated = 'USER_CREATED',
-  UserLoggedIn = 'USER_LOGGED_IN'
+  UserLoggedIn = 'USER_LOGGED_IN',
+  UserRemoved = 'USER_REMOVED'
 }
 
 export const getMessageFromCode = (resultCode: string) => {
@@ -86,49 +87,4 @@ export const getMessageFromCode = (resultCode: string) => {
     case ResultCode.UserLoggedIn:
       return 'Logged in!'
   }
-}
-
-export function format(date: Date, formatString: string) {
-  const year = date.getFullYear()
-  const month = date.getMonth()
-  const day = date.getDate()
-  const hours = String(date.getHours()).padStart(2, '0')
-  const minutes = String(date.getMinutes()).padStart(2, '0')
-  const seconds = String(date.getSeconds()).padStart(2, '0')
-
-  const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ]
-
-  return formatString
-    .replace('yyyy', year.toString())
-    .replace('yy', String(year).slice(-2))
-    .replace('LLL', monthNames[month])
-    .replace('MM', String(month + 1).padStart(2, '0'))
-    .replace('dd', String(day).padStart(2, '0'))
-    .replace('d', day.toString())
-    .replace('HH', hours)
-    .replace('mm', minutes)
-    .replace('ss', seconds)
-}
-
-export function parseISO(dateString: string) {
-  return new Date(dateString)
-}
-
-export function subMonths(date: Date, amount: number) {
-  const newDate: Date = new Date(date)
-  newDate.setMonth(newDate.getMonth() - amount)
-  return newDate
 }

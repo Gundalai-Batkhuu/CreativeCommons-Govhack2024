@@ -1,11 +1,12 @@
 'use server'
 
-import { signIn } from '@/auth'
+import { signIn, signOut } from '@/auth'
 import { ResultCode, getStringFromBuffer } from '@/lib/utils'
 import { z } from 'zod'
 import { kv } from '@vercel/kv'
 import { getUser } from '../login/actions'
 import { AuthError } from 'next-auth'
+import { userService } from '@/lib/services/user-service';
 
 export async function createUser(
   email: string,
@@ -27,11 +28,31 @@ export async function createUser(
       salt
     }
 
-    await kv.hmset(`user:${email}`, user)
+    try {
+      // Create user in Redis
+      await kv.hmset(`user:${email}`, user)
 
-    return {
-      type: 'success',
-      resultCode: ResultCode.UserCreated
+      // Create user in the backend database
+      await userService.createUser(user.id, email)
+
+      return {
+        type: 'success',
+        resultCode: ResultCode.UserCreated
+      }
+    } catch (error) {
+      console.error('Failed to create user:', error)
+
+      // Attempt to clean up Redis in case of failure
+      try {
+        await kv.del(`user:${email}`)
+      } catch (cleanupError) {
+        console.error('Failed to clean up Redis after user creation error:', cleanupError)
+      }
+
+      return {
+        type: 'error',
+        resultCode: ResultCode.UnknownError
+      }
     }
   }
 }
@@ -106,6 +127,30 @@ export async function signup(
     return {
       type: 'error',
       resultCode: ResultCode.InvalidCredentials
+    }
+  }
+}
+
+export async function removeUser(email: String): Promise<Result> {
+  try {
+    // Remove user from Redis
+    await kv.del(`user:${email}`)
+
+    // Remove user from backend database
+    // Note: We're assuming userService has a method to delete a user. If it doesn't, you'll need to add one.
+    // await userService.deleteUser(email)
+
+    await signOut({ redirect: false })
+
+    return {
+      type: 'success',
+      resultCode: ResultCode.UserRemoved
+    }
+  } catch (error) {
+    console.error('Failed to remove user:', error)
+    return {
+      type: 'error',
+      resultCode: ResultCode.UnknownError
     }
   }
 }

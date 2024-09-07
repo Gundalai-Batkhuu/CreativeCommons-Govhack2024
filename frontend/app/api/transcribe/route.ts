@@ -1,9 +1,9 @@
 // app/api/transcribe/route.ts
 
 import { NextResponse } from 'next/server';
-import { OpenAiWhisperService } from '@/lib/voice/speech-to-text-service';
+import { SpeechToTextService } from '@/lib/voice/speech-to-text-service';
 
-const whisperService = new OpenAiWhisperService();
+const whisperService = new SpeechToTextService();
 
 export async function POST(request: Request) {
   try {

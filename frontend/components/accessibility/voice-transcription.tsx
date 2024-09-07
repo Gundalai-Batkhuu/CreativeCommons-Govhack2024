@@ -1,16 +1,22 @@
 'use client';
-
 import React, { useState, useRef } from 'react';
+import { Mic, MicOff } from 'lucide-react';
 
-export default function VoiceTranscription() {
+interface VoiceTranscriptionProps {
+  setTranscriptionValue?: (value: string) => void;
+}
+
+export default function VoiceTranscription({ setTranscriptionValue }: VoiceTranscriptionProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState('');
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
 
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
       mediaRecorderRef.current = new MediaRecorder(stream);
       audioChunksRef.current = [];
 
@@ -34,6 +40,12 @@ export default function VoiceTranscription() {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+
+      // Stop all tracks in the stream
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
     }
   };
 
@@ -50,6 +62,9 @@ export default function VoiceTranscription() {
         });
         const data = await response.json();
         setTranscription(data.transcription);
+        if (setTranscriptionValue) {
+          setTranscriptionValue(data.transcription);
+        }
       };
     } catch (error) {
       console.error('Error sending audio to server:', error);
@@ -59,10 +74,8 @@ export default function VoiceTranscription() {
   return (
     <div>
       <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? 'Stop Recording' : 'Start Recording'}
+        {isRecording ? <MicOff /> : <Mic />}
       </button>
-      <h3>Transcription:</h3>
-      <p>{transcription}</p>
     </div>
   );
 }

@@ -1,11 +1,6 @@
-// app/services/openAiWhisperService.ts
-
 import OpenAI from 'openai';
-import fs from 'fs/promises';
-import os from 'os';
-import path from 'path';
 
-export class OpenAiWhisperService {
+export class SpeechToTextService {
   private openai: OpenAI;
 
   constructor() {
@@ -14,29 +9,20 @@ export class OpenAiWhisperService {
     });
   }
 
-  async generateSpeech(text: string, voice: string = 'shimmer'): Promise<Buffer> {
+  async transcribeAudio(audioBuffer: Buffer): Promise<string> {
     try {
-      const response = await this.openai.audio.speech.create({
-        model: "tts-1",
-        voice: "shimmer",
-        input: text,
+      // Create a File object directly from the buffer
+      const file = new File([audioBuffer], 'audio.wav', { type: 'audio/wav' });
+
+      const response = await this.openai.audio.transcriptions.create({
+        file: file,
+        model: "whisper-1",
+        language: "en"
       });
 
-      // Create a temporary file to store the audio
-      const tempFile = path.join(os.tmpdir(), `speech-${Date.now()}.mp3`);
-
-      // Write the audio data to the temporary file
-      await fs.writeFile(tempFile, Buffer.from(await response.arrayBuffer()));
-
-      // Read the file back as a Buffer
-      const audioBuffer = await fs.readFile(tempFile);
-
-      // Delete the temporary file
-      await fs.unlink(tempFile);
-
-      return audioBuffer;
+      return response.text;
     } catch (error) {
-      console.error('Error in generateSpeech:', error);
+      console.error('Error in transcribeAudio:', error);
       throw error;
     }
   }
