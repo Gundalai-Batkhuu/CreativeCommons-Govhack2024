@@ -8,6 +8,8 @@ import { Database, Settings, Pencil, Trash2, Share2, ChartNoAxesCombined } from 
 import StatsCard from '../stat-card'
 import FactCard from '../fact_card'
 import { UsersRound, Headset} from "lucide-react"
+import WordCloud from '../wordcloud'
+import CallsLineGraph from '../line-graph'
 
 interface KnowledgeBase {
   id: string
@@ -91,13 +93,16 @@ export default function Analytics() {
             <h1 className="text-2xl font-bold">Statistics</h1>  
         </div>
         
-        <div className="border-2 border-red-500">
-            <div className="flex justify-center">
+        <div className="">
+            <div className="flex justify-center mb-1">
                 <StatsCard />
                 <FactCard figure="190K" baseText="Individual Assisted" title="Service Count" icon={UsersRound}/>
                 <FactCard figure="220" baseText="Hours of Conversation" title="Engage Time" icon={Headset}/>
             </div>
-          
+            <div className="flex justify-center">
+                <WordCloud />
+                <CallsLineGraph />
+            </div>
         </div>
       </div>
     </div>
