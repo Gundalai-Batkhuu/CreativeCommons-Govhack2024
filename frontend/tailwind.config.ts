@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import {blackA, violet} from "@radix-ui/colors";
+
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -54,7 +56,9 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
-        }
+        },
+        ...blackA,
+        ...violet,
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -77,5 +81,5 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')]
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography'), require('@radix-ui/colors')]
 }
