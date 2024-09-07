@@ -48,14 +48,14 @@ export function Header() {
                         Chat
                     </Button>
                 </Link>
-                <Link href="/search">
+                <Link href="/">
                     <Button variant="ghost">
                         Search
                     </Button>
                 </Link>
-                <Link href="/text-editor">
+                <Link href="/database-collection">
                     <Button variant="ghost">
-                        Knowledge repository
+                        Database collection
                     </Button>
                 </Link>
                 <UserOrLogin/>

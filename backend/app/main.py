@@ -1,13 +1,12 @@
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .controller.search import Search
-from .controller.create_documents import Create
-from .controller.store_documents import Store
-from .controller.query_documents import Query
-from .model.payload import (KnowledgeBase, SearchQuery, UserQuery)
+from app.controller.search import Search
+from app.controller.create_documents import Create
+from app.controller.store_documents import Store
+from app.controller.query_documents import Query
+from model.payload import (KnowledgeBase, SearchQuery, UserQuery)
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-from typing import Optional, List
 
 app = FastAPI()
 

@@ -2,7 +2,7 @@ from langchain_core.runnables import (RunnableBranch, RunnableLambda, RunnablePa
 RunnablePassthrough)
 from langchain_core.output_parsers import StrOutputParser
 from app.const import ModelProvider
-from .llm import LLM
+from app.dependencies.llm import LLM
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.vectorstores import Neo4jVector
 from langchain_openai import OpenAIEmbeddings
