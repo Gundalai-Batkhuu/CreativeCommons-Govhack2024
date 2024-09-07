@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ChevronUp, MessageSquare, CheckCircle2 } from "lucide-react"
+import { MessageSquare, CheckCircle2, ArrowBigUp } from "lucide-react"
 import DiscussionForm from "@/components/discussion-form"
 
 // TypeScript interfaces
@@ -101,7 +101,7 @@ const CommentComponent: React.FC<{
 
           <div className="mt-2 flex items-center space-x-4">
             <Button variant="ghost" size="sm" onClick={() => onUpvote(comment.id)}>
-              <ChevronUp className="mr-1 h-4 w-4" />
+              <ArrowBigUp className="mr-1 h-4 w-4" />
               {comment.upvotes}
             </Button>
             <Button variant="ghost" size="sm" onClick={() => setIsReplying(!isReplying)}>
