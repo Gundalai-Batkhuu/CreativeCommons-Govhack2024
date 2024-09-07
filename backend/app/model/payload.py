@@ -15,3 +15,6 @@ class KnowledgeBase(BaseModel):
     links: List[str]
     files: List[str] | None = None
     description: str   
+
+class UserQuery(BaseModel):
+    query: str    
