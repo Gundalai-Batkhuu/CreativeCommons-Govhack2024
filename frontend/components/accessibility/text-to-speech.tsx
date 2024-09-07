@@ -1,16 +1,20 @@
-// components/TextToSpeech.tsx
-
 'use client';
+import React, { useState, useRef, useEffect } from 'react';
+import { Speech } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-import React, { useState } from 'react';
+interface TextToSpeechProps {
+  text: string;
+  className?: string;
+}
 
-export default function TextToSpeech() {
-  const [text, setText] = useState('');
+export default function TextToSpeech({ text, className }: TextToSpeechProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [audioSrc, setAudioSrc] = useState('');
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSpeak = async () => {
+    if (!text) return;
     setIsLoading(true);
 
     try {
@@ -34,37 +38,31 @@ export default function TextToSpeech() {
     }
   };
 
+  useEffect(() => {
+    if (audioSrc && audioRef.current) {
+      audioRef.current.play().catch(error => {
+        console.error('Autoplay failed:', error);
+      });
+    }
+  }, [audioSrc]);
+
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-      <h2 className="text-2xl font-bold mb-4">Text to Speech</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="text" className="block mb-2 font-medium">Enter text:</label>
-          <textarea
-            id="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Enter text to convert to speech"
-            rows={4}
-            className="w-full p-2 border border-gray-300 rounded"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-blue-300"
-        >
-          {isLoading ? 'Generating...' : 'Generate Speech'}
-        </button>
-      </form>
+    <div
+      className={cn(
+        'flex items-center justify-end transition-opacity group-hover:opacity-100 md:absolute md:-right-10 md:-top-2 md:opacity-0',
+        className
+      )}
+    >
+      <button
+        onClick={handleSpeak}
+        disabled={isLoading || !text}
+      >
+        <Speech size={24} />
+      </button>
       {audioSrc && (
-        <div className="mt-6">
-          <h3 className="text-lg font-medium mb-2">Generated Audio:</h3>
-          <audio controls src={audioSrc} className="w-full">
-            Your browser does not support the audio element.
-          </audio>
-        </div>
+        <audio ref={audioRef} src={audioSrc} className="ml-2 w-full max-w-xs">
+          Your browser does not support the audio element.
+        </audio>
       )}
     </div>
   );

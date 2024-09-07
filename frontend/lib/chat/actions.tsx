@@ -37,8 +37,7 @@ async function submitUserMessage(content: string, documentId: string) {
     })
 
     const payload = {
-      query: content,
-      document_id: documentId
+      query: content
     }
 
     console.log('Request payload:', payload)

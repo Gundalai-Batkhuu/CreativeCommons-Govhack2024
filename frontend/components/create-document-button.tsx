@@ -1,24 +1,20 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { documentService } from '@/lib/services/document-service'
-import { CreateDocument } from '@/lib/types'
+import { KnowledgeBase } from '@/lib/types'
 
 
 export const CreateDocumentButton = ({
-  user_id,
   links,
-  document_alias,
   description
-}: CreateDocument) => {
+}: KnowledgeBase) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
-      const document: CreateDocument = {
-        user_id: user_id,
+      const document: KnowledgeBase = {
         links: links,
-        document_alias: document_alias,
         description: description
       }
 
@@ -34,7 +30,7 @@ export const CreateDocumentButton = ({
 
   return (
     <form onSubmit={handleSubmit} className="flex items-stretch">
-      <Button variant="ghost" className="bg-emerald-900 hover:bg-emerald-800">
+      <Button variant="ghost" className="dark:bg-emerald-900 bg-emerald-500 hover:bg-emerald-400 dark:hover:bg-emerald-800 ">
         Submit new document
       </Button>
     </form>

@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import os
 from app.model.payload import SearchResult
 
+load_dotenv()
+
 class SearchFunction:
     google_api_key = os.getenv("GOOGLE_API_KEY")    
     google_cse_id = os.getenv("GOOGLE_CSE_ID")
