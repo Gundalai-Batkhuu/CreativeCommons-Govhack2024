@@ -1,0 +1,14 @@
+version: '3'
+
+dotenv: ['.env']
+
+tasks:
+  dev:run:
+    desc: runs the server in the development mode
+    cmds:
+      - python -m app.main
+  dev:watch:
+    desc: runs the server in the development mode while watching the changes in the file
+    cmds:
+      - uvicorn app.main:app --host 0.0.0.0 --port 5500 --reload        
+
