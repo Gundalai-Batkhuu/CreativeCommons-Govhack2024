@@ -5,12 +5,8 @@
  */
 "use client"
 
-import {SearchIcon, ListOrderedIcon, ChevronDownIcon} from "@/components/ui/icons";
-
-
-
-
-import { useState, useMemo } from "react"
+import React, { useState, useMemo } from "react"
+import { SearchIcon, ListOrderedIcon, ChevronDownIcon } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
@@ -21,14 +17,35 @@ import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 
-export default function Component() {
-  const [search, setSearch] = useState("")
-  const [filters, setFilters] = useState({
+interface Database {
+  id: number
+  image: string
+  title: string
+  description: string
+  category: string
+  price: number
+  featured: boolean
+}
+
+interface Filters {
+  category: string[]
+  price: {
+    min: number
+    max: number
+  }
+}
+
+type SortOption = "featured" | "low" | "high"
+
+export default function MarketPageContent() {
+  const [search, setSearch] = useState<string>("")
+  const [filters, setFilters] = useState<Filters>({
     category: [],
     price: { min: 0, max: 1000 },
   })
-  const [sort, setSort] = useState("featured")
-  const databases = [
+  const [sort, setSort] = useState<SortOption>("featured")
+
+  const databases: Database[] = [
     {
       id: 1,
       image: "/placeholder.svg",
@@ -110,7 +127,7 @@ export default function Component() {
       .sort((a, b) => {
         switch (sort) {
           case "featured":
-            return b.featured - a.featured
+            return Number(b.featured) - Number(a.featured)
           case "low":
             return a.price - b.price
           case "high":
@@ -120,6 +137,32 @@ export default function Component() {
         }
       })
   }, [search, filters, sort])
+
+  const handleCategoryChange = (category: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      category: prevFilters.category.includes(category)
+        ? prevFilters.category.filter((c) => c !== category)
+        : [...prevFilters.category, category],
+    }))
+  }
+
+  const handlePriceChange = (minOrMax: 'min' | 'max', value: number) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      price: {
+        ...prevFilters.price,
+        [minOrMax]: value,
+      },
+    }))
+  }
+
+  const handleSortChange = (value: string) => {
+    if (value === "featured" || value === "low" || value === "high") {
+      setSort(value)
+    }
+  }
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <header className="mb-8">
@@ -148,7 +191,7 @@ export default function Component() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+              <DropdownMenuRadioGroup value={sort} onValueChange={handleSortChange}>
                 <DropdownMenuRadioItem value="featured">Featured</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="low">Price: Low to High</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="high">Price: High to Low</DropdownMenuRadioItem>
@@ -167,48 +210,15 @@ export default function Component() {
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Category</h3>
                   <div className="space-y-2">
-                    <Label className="flex items-center gap-2">
-                      <Checkbox
-                        checked={filters.category.includes("Relational")}
-                        onCheckedChange={() => {
-                          setFilters((prevFilters) => ({
-                            ...prevFilters,
-                            category: prevFilters.category.includes("Relational")
-                              ? prevFilters.category.filter((c) => c !== "Relational")
-                              : [...prevFilters.category, "Relational"],
-                          }))
-                        }}
-                      />
-                      Relational
-                    </Label>
-                    <Label className="flex items-center gap-2">
-                      <Checkbox
-                        checked={filters.category.includes("NoSQL")}
-                        onCheckedChange={() => {
-                          setFilters((prevFilters) => ({
-                            ...prevFilters,
-                            category: prevFilters.category.includes("NoSQL")
-                              ? prevFilters.category.filter((c) => c !== "NoSQL")
-                              : [...prevFilters.category, "NoSQL"],
-                          }))
-                        }}
-                      />
-                      NoSQL
-                    </Label>
-                    <Label className="flex items-center gap-2">
-                      <Checkbox
-                        checked={filters.category.includes("Search")}
-                        onCheckedChange={() => {
-                          setFilters((prevFilters) => ({
-                            ...prevFilters,
-                            category: prevFilters.category.includes("Search")
-                              ? prevFilters.category.filter((c) => c !== "Search")
-                              : [...prevFilters.category, "Search"],
-                          }))
-                        }}
-                      />
-                      Search
-                    </Label>
+                    {["Relational", "NoSQL", "Search"].map((category) => (
+                      <Label key={category} className="flex items-center gap-2">
+                        <Checkbox
+                          checked={filters.category.includes(category)}
+                          onCheckedChange={() => handleCategoryChange(category)}
+                        />
+                        {category}
+                      </Label>
+                    ))}
                   </div>
                 </div>
                 <div>
@@ -221,15 +231,7 @@ export default function Component() {
                         min={0}
                         max={filters.price.max}
                         value={filters.price.min}
-                        onChange={(e) =>
-                          setFilters((prevFilters) => ({
-                            ...prevFilters,
-                            price: {
-                              ...prevFilters.price,
-                              min: parseInt(e.target.value),
-                            },
-                          }))
-                        }
+                        onChange={(e) => handlePriceChange('min', parseInt(e.target.value))}
                       />
                     </div>
                     <div className="flex items-center gap-4">
@@ -239,15 +241,7 @@ export default function Component() {
                         min={filters.price.min}
                         max={1000}
                         value={filters.price.max}
-                        onChange={(e) =>
-                          setFilters((prevFilters) => ({
-                            ...prevFilters,
-                            price: {
-                              ...prevFilters.price,
-                              max: parseInt(e.target.value),
-                            },
-                          }))
-                        }
+                        onChange={(e) => handlePriceChange('max', parseInt(e.target.value))}
                       />
                     </div>
                   </div>
