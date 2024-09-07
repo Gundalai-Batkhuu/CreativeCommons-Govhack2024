@@ -31,7 +31,7 @@ class SearchFunction:
         return formatted_results  
     
     @classmethod
-    def get_results(cls, query, file_type, mix):
+    def get_results(cls, query, file_type):
         search_query = cls._get_search_query(query, file_type)
         service = build("customsearch", "v1", developerKey=cls.google_api_key)
         results = service.cse().list(q=search_query, cx=cls.google_cse_id).execute()
