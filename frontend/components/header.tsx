@@ -4,6 +4,7 @@ import {auth} from '@/auth'
 import {SidebarToggle} from './sidebar/sidebar-toggle'
 import {UserMenu} from '@/components/user-menu'
 import {Button} from './ui/button'
+import Logo from './logo';
 
 async function UserOrLogin() {
     const session = (await auth()) as Session
@@ -36,10 +37,11 @@ export function Header() {
     return (
         <header
             className="sticky top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
-            <div className="flex items-center">
-                <SidebarToggle/>
-                <Link href="/" className="ml-4 text-xl font-bold">
-                    AI Chat
+            <div className="flex items-center ml-4">
+                {/* <SidebarToggle/> */}
+                <Logo />
+                <Link href="/" className="text-xl font-bold">
+                    Knowledge Commons
                 </Link>
             </div>
             <div className="flex items-center justify-end space-x-4">
@@ -48,14 +50,14 @@ export function Header() {
                         Chat
                     </Button>
                 </Link>
-                <Link href="/search">
+                <Link href="/discussion-forum">
                     <Button variant="ghost">
-                        Search
+                        Discussions
                     </Button>
                 </Link>
-                <Link href="/text-editor">
+                <Link href="/marketplace">
                     <Button variant="ghost">
-                        Knowledge repository
+                        Knowledge Pool
                     </Button>
                 </Link>
                 <UserOrLogin/>
