@@ -55,7 +55,8 @@
     "zod": "^3.23.8",
     "zustand": "^4.5.5",
     "lucide-react": "^0.436.0",
-    "react-simple-wysiwyg": "^3.1.1"
+    "react-simple-wysiwyg": "^3.1.1",
+    "axios": "^1.7.7"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",
