@@ -13,11 +13,11 @@ interface KnowledgeBase {
 }
 
 const mockKnowledgeBases: KnowledgeBase[] = [
-  { id: '1', name: 'Marketing Strategies' },
-  { id: '2', name: 'Product Development' },
-  { id: '3', name: 'Customer Support FAQs' },
-  { id: '4', name: 'HR Policies' },
-  { id: '5', name: 'Sales Techniques' },
+  { id: '1', name: 'Accessibility' },
+  { id: '2', name: 'Online resources/service list (Federal)' },
+  { id: '3', name: 'Public discussion topic(Labor Market)' },
+  { id: '4', name: 'Healthcare Services' },
+  { id: '5', name: 'Australian Government Style Manual' },
 ]
 
 export default function TwoPaneUI() {
@@ -30,7 +30,8 @@ export default function TwoPaneUI() {
     setKnowledgeBases(knowledgeBases.filter(kb => kb.id !== id))
   }
 
-  const onShare = (id: string) => {
+  const onShare = (event: React.MouseEvent) => {
+    event.stopPropagation()
     setShowNotification(true)
   }
 
@@ -101,7 +102,7 @@ export default function TwoPaneUI() {
       {/* Right Pane */}
       <div className="w-3/4 p-6 overflow-auto bg-white">
         <div className="py-4 flex items-center">
-        <Database className="h-16 w-16 mr-4 text-primaryAccent" onClick={showAnalyticStats} />
+            <Database className="h-16 w-16 mr-4 text-primaryAccent" />
             <h1 className="text-2xl font-bold text-secondaryAccent">Knowledge Bases</h1>
             
         </div>
@@ -141,7 +142,7 @@ export default function TwoPaneUI() {
                   <TooltipProvider delayDuration={50}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Button variant="ghost" size="icon" onClick={() => onShare(kb.id)}>
+                        <Button variant="ghost" size="icon" onClick={(event) => onShare(event)}>
                           <Share2 className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
