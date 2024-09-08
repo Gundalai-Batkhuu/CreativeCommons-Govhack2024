@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { SearchResult } from '@/components/search-results'
+import { SearchResult } from '@/lib/types'
+
 
 interface SelectedItemsState {
   selectedItems: SearchResult[]
