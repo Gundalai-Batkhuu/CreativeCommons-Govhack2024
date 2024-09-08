@@ -52,19 +52,25 @@ export interface CapturedDocument {
   captured_files: CapturedFile[]
 }
 
-export interface Artefact {
-  document_id: string
-  document_name: string
-  vanilla_links: string[]
-  file_links: string[]
-  files: string[]
-  description: string
-  captured_documents: CapturedDocument[]
+export interface Resource {
+  name: string;
+  sources: string;
+}
+
+export interface Artifact {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  engagement: number;
+  featured: boolean;
+  image: string;
+  resources: Resource[];
 }
 
 export interface UserArtifactsResponse {
   user_id: string
-  artefact_tree: Artefact[]
+  artefact_tree: Artifact[]
 }
 
 export type CountryShortName = string; // Assuming CountryShortName is a string type

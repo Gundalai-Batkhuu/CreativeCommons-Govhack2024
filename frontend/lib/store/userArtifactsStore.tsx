@@ -1,17 +1,19 @@
+// UserArtifactsStore.ts
 import { create } from 'zustand'
-import { userService } from '@/lib/services/user-service'
-import { UserArtifactsResponse, Artefact } from '@/lib/types'
+import { Artifact } from '@/lib/types'
+
+
 
 interface UserArtifactsState {
-  artifacts: UserArtifactsResponse | null
-  isLoading: boolean
-  error: string | null
-  selectedArtifactId: string | null
-  fetchUserArtifacts: (userId: string) => Promise<void>
-  addArtifact: (artifact: Artefact) => void
-  removeArtifact: (artifactId: string) => void
-  updateArtifact: (artifact: Artefact) => void
-  setSelectedArtifactId: (artifactId: string | null) => void
+  artifacts: Artifact[] | null;
+  isLoading: boolean;
+  error: string | null;
+  selectedArtifactId: number | null;
+  fetchArtifacts: () => Promise<void>;
+  addArtifact: (artifact: Artifact) => void;
+  removeArtifact: (artifactId: number) => void;
+  updateArtifact: (artifact: Artifact) => void;
+  setSelectedArtifactId: (artifactId: number | null) => void;
 }
 
 export const useUserArtifactsStore = create<UserArtifactsState>((set) => ({
@@ -20,51 +22,34 @@ export const useUserArtifactsStore = create<UserArtifactsState>((set) => ({
   error: null,
   selectedArtifactId: null,
 
-  fetchUserArtifacts: async (userId: string) => {
-    set({ isLoading: true, error: null })
+  fetchArtifacts: async () => {
+    set({ isLoading: true, error: null });
     try {
-      const data = await userService.getUserArtifacts(userId)
-      set((state) => ({
-        artifacts: data,
-        isLoading: false,
-        // Set the first artifact as selected by default if it exists
-        selectedArtifactId: data.artefact_tree.length > 0 ? data.artefact_tree[0].document_id : null
-      }))
+      const response = await fetch('/api/knowledge-bases');
+      if (!response.ok) throw new Error('Failed to fetch artifacts');
+      const data = await response.json();
+      set({ artifacts: data.knowledge_base, isLoading: false });
     } catch (error) {
-      set({ error: (error as Error).message, isLoading: false })
+      set({ error: (error as Error).message, isLoading: false });
     }
   },
 
-  addArtifact: (artifact: Artefact) => set((state) => ({
-    artifacts: state.artifacts
-      ? {
-          ...state.artifacts,
-          artefact_tree: [...state.artifacts.artefact_tree, artifact]
-        }
-      : null
+  addArtifact: (artifact: Artifact) => set((state) => ({
+    artifacts: state.artifacts ? [...state.artifacts, artifact] : [artifact]
   })),
 
-  removeArtifact: (artifactId: string) => set((state) => ({
-    artifacts: state.artifacts
-      ? {
-          ...state.artifacts,
-          artefact_tree: state.artifacts.artefact_tree.filter((a) => a.document_id !== artifactId)
-        }
-      : null,
-    // If the removed artifact was selected, clear the selection
+  removeArtifact: (artifactId: number) => set((state) => ({
+    artifacts: state.artifacts ? state.artifacts.filter((art) => art.id !== artifactId) : null,
     selectedArtifactId: state.selectedArtifactId === artifactId ? null : state.selectedArtifactId
   })),
 
-  updateArtifact: (updatedArtifact: Artefact) => set((state) => ({
+  updateArtifact: (updatedArtifact: Artifact) => set((state) => ({
     artifacts: state.artifacts
-      ? {
-          ...state.artifacts,
-          artefact_tree: state.artifacts.artefact_tree.map((a) =>
-            a.document_id === updatedArtifact.document_id ? updatedArtifact : a
-          )
-        }
+      ? state.artifacts.map((art) =>
+          art.id === updatedArtifact.id ? updatedArtifact : art
+        )
       : null
   })),
 
-  setSelectedArtifactId: (artifactId: string | null) => set({ selectedArtifactId: artifactId })
-}))
+  setSelectedArtifactId: (artifactId: number | null) => set({ selectedArtifactId: artifactId })
+}));
