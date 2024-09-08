@@ -28,7 +28,7 @@ export function UserArtifact({
     <div
       className={`cursor-pointer ${
         isSelected ? 'bg-gray-300 dark:bg-accent-dark' : 'bg-background dark:bg-background-dark'
-      } border border-border dark:border-border-dark p-2 rounded transition-colors duration-200`}
+      } border border-border dark:border-border-dark p-2 rounded transition-all duration-300 ease-in-out transform hover:scale-[1.02]`}
     >
       <div className="flex items-center justify-between space-x-2 text-sm">
         <div className="flex items-center space-x-2 flex-grow">

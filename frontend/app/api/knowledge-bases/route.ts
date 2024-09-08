@@ -96,7 +96,7 @@ const knowledgeBases = [
     "id": 6,
     "title": "Public discussion topic (Labor Market)",
     "description": "Statistical resources for labor market discussions",
-    "category": "Public information",
+    "category": "Public Information",
     "engagement": 63,
     "featured": false,
     "image": "/labour force.png",

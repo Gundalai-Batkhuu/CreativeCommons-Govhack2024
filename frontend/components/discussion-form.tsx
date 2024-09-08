@@ -48,9 +48,7 @@ export default function DiscussionForm() {
     <>
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <MessageSquarePlus className="h-4 w-4" />
-        </Button>
+          <MessageSquarePlus className="w-5 h-5 text-gray-500 hover:text-gray-700 cursor-pointer"/>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

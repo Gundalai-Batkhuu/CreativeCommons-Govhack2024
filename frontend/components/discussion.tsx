@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { MessageSquare, CheckCircle2, ArrowBigUp } from "lucide-react"
-import DiscussionForm from "@/components/discussion-form"
 
 // TypeScript interfaces
 interface User {
@@ -85,7 +84,7 @@ const CommentComponent: React.FC<{
   const [isReplying, setIsReplying] = useState(false)
 
   return (
-    <><DiscussionForm />
+    <>
     <div className={`mb-4 ${level > 0 ? 'ml-8 border-l pl-4' : ''}`}>
       <div className="flex items-start space-x-4">
         <Avatar>

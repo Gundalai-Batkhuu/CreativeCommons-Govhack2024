@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import { useSidebar } from '../../lib/hooks/use-sidebar'
+import { useSidebar } from '@/lib/hooks/use-sidebar'
 import { Button } from '../ui/button'
 import { IconSidebar } from '../ui/icons'
 
