@@ -13,7 +13,7 @@ export function ProfileIcon({ name }: ProfileIconProps) {
 
   return (
     <Avatar.Root
-      className="flex size-8 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-xs font-medium uppercase text-muted-foreground"
+      className="flex size-8 shrink-0 select-none items-center justify-center rounded-full bg-purple-500 text-xs font-medium uppercase text-white"
     >
       <Avatar.Image
         className="h-full w-full rounded-[inherit] object-cover"

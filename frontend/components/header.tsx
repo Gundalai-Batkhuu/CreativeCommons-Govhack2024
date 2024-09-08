@@ -18,12 +18,12 @@ async function UserOrLogin() {
             ) : (
                 <>
                     <Link href="/login">
-                        <Button variant="ghost">
+                        <Button variant="ghost" className="text-base">
                             Login
                         </Button>
                     </Link>
                     <Link href="/signup">
-                        <Button variant="ghost">
+                        <Button variant="ghost" className="text-base">
                             Sign Up
                         </Button>
                     </Link>
@@ -40,23 +40,23 @@ export function Header() {
             <div className="flex items-center ml-4">
                 {/* <SidebarToggle/> */}
                 <Logo />
-                <Link href="/" className="text-xl font-bold">
+                <Link href="/" className="text-xl font-bold text-primaryAccent">
                     Knowledge Commons
                 </Link>
             </div>
             <div className="flex items-center justify-end space-x-4">
                 <Link href="/chat">
-                    <Button variant="ghost">
+                    <Button variant="ghost" className="text-base">
                         Chat
                     </Button>
                 </Link>
                 <Link href="/discussion-forum">
-                    <Button variant="ghost">
+                    <Button variant="ghost" className="text-base">
                         Discussions
                     </Button>
                 </Link>
                 <Link href="/marketplace">
-                    <Button variant="ghost">
+                    <Button variant="ghost" className="text-base">
                         Knowledge Pool
                     </Button>
                 </Link>

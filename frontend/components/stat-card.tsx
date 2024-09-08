@@ -7,15 +7,16 @@ interface Stat {
   label: string;
   value: string | number;
   icon: React.ElementType;
+  color: string;
 }
 
 const StatsCard: React.FC = () => {
   const stats: Stat[] = [
-    { label: 'Efficiency', value: '89%', icon: Sparkle },
-    { label: 'Engagement', value: 'High', icon: Flame },
-    { label: 'Discussions', value: 20, icon: MessageSquare },
-    { label: 'Upvotes', value: '11k', icon: ArrowBigUp },
-    { label: 'Downvotes', value: 500, icon: ArrowBigDown },
+    { label: 'Efficiency', value: '89%', icon: Sparkle, color: "green" },
+    { label: 'Engagement', value: 'High', icon: Flame, color: "green" },
+    { label: 'Discussions', value: 20, icon: MessageSquare , color: "black"},
+    { label: 'Upvotes', value: '11k', icon: ArrowBigUp, color: "yellow" },
+    { label: 'Downvotes', value: 500, icon: ArrowBigDown, color: "red" },
   ];
 
   return (
@@ -24,10 +25,10 @@ const StatsCard: React.FC = () => {
         {stats.map((stat, index) => (
           <div key={index} className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <stat.icon className="h-5 w-5 text-gray-400" />
+              <stat.icon className={`h-5 w-5 text-secondaryAccent`} />
               <span className="text-sm font-medium text-gray-500">{stat.label}</span>
             </div>
-            <span className="text-sm font-semibold text-gray-900">{stat.value}</span>
+            <span className={`text-sm font-semibold text-[green]`}>{stat.value}</span>
           </div>
         ))}
       </div>

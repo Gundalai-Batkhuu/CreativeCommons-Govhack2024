@@ -2,40 +2,18 @@
 
 import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Database, Settings, Pencil, Trash2, Share2, ChartNoAxesCombined } from "lucide-react"
+import { Database, Settings, ChartNoAxesCombined } from "lucide-react"
 import StatsCard from '../stat-card'
 import FactCard from '../fact_card'
 import { UsersRound, Headset} from "lucide-react"
 import WordCloud from '../wordcloud'
 import CallsLineGraph from '../line-graph'
-
-interface KnowledgeBase {
-  id: string
-  name: string
-}
-
-const mockKnowledgeBases: KnowledgeBase[] = [
-  { id: '1', name: 'Marketing Strategies' },
-  { id: '2', name: 'Product Development' },
-  { id: '3', name: 'Customer Support FAQs' },
-  { id: '4', name: 'HR Policies' },
-  { id: '5', name: 'Sales Techniques' },
-]
+import {useRouter} from "next/navigation"
 
 export default function Analytics() {
   const [activeTab, setActiveTab] = useState('dashboard')
-  const [knowledgeBases, setKnowledgeBases] = useState(mockKnowledgeBases)
   const [showNotification, setShowNotification] = useState(false)
-
-  const handleDelete = (id: string) => {
-    setKnowledgeBases(knowledgeBases.filter(kb => kb.id !== id))
-  }
-
-  const onShare = (id: string) => {
-    setShowNotification(true)
-  }
+  const router = useRouter()
 
   useEffect(() => {
     if (showNotification) {
@@ -45,9 +23,19 @@ export default function Analytics() {
       return () => clearTimeout(timer)
     }
     }, [showNotification])
+  
+    const showAnalyticsPage = () => {
+      router.push(`/analytics`)
+      setActiveTab('analytics')
+    }
+  
+    const showAccountPage = () => {
+      router.push(`/account`)
+      setActiveTab('knowledge-bases')
+    }
 
   return (
-    <div className="flex h-screen bg-gray-100 gap-1">
+    <div className="flex bg-gray-100 gap-1">
       {/* Left Pane */}
       <div className="w-1/4 bg-white p-4 shadow-md">
         <nav>
@@ -56,20 +44,20 @@ export default function Analytics() {
               <Button
                 variant={activeTab === 'knowledge-bases' ? 'default' : 'ghost'}
                 className="w-full justify-start"
-                onClick={() => setActiveTab('knowledge-bases')}
+                onClick={showAccountPage}
               >
                 <Database className="mr-2 h-4 w-4" />
-                Knowledge Bases
+                  Knowledge Bases
               </Button>
             </li>
             <li>
               <Button
                 variant={activeTab === 'dashboard' ? 'default' : 'ghost'}
                 className="w-full justify-start"
-                onClick={() => setActiveTab('dashboard')}
+                onClick={showAnalyticsPage}
               >
                 <ChartNoAxesCombined className="mr-2 h-4 w-4" />
-                Analytics
+                  Analytics
               </Button>
             </li>
             <li>
@@ -89,8 +77,8 @@ export default function Analytics() {
       {/* Right Pane */}
       <div className="w-3/4 p-6 overflow-auto bg-white">
         <div className="py-4 flex items-center">
-            <ChartNoAxesCombined className="h-16 w-16 mr-4" />
-            <h1 className="text-2xl font-bold">Statistics</h1>  
+            <ChartNoAxesCombined className="h-16 w-16 mr-4 text-primaryAccent" />
+            <h1 className="text-2xl font-bold text-secondaryAccent">Statistics</h1>  
         </div>
         
         <div className="">

@@ -9,6 +9,7 @@ import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
+import { Nunito } from 'next/font/google';
 
 export const metadata = {
     title: "Legal AI",
@@ -26,16 +27,15 @@ interface RootLayoutProps {
     children: ReactNode;
 }
 
+const nunito = Nunito({
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+})
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          'font-sans antialiased',
-          GeistSans.variable,
-          GeistMono.variable
-        )}
-      >
+      <body className={nunito.className}>
         <Toaster position="top-center" />
         <Providers
           attribute="class"

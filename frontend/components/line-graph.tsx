@@ -38,7 +38,7 @@ const CallsLineGraph: React.FC = () => {
   return (
     <Card className="w-[60%] max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold text-gray-700">Calls Received Per Day</CardTitle>
+        <CardTitle className="text-xl font-semibold text-primaryAccent">Calls Received Per Day</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={250}>
@@ -70,7 +70,7 @@ const CallsLineGraph: React.FC = () => {
               }}
             />
             <Legend />
-            <Line type="monotone" dataKey="calls" stroke="#111" activeDot={{ r: 8 }} dot={false} />
+            <Line type="monotone" dataKey="calls" stroke="#003366" activeDot={{ r: 8 }} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </CardContent>

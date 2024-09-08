@@ -231,7 +231,7 @@ export default function Discussion() {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-4">{thread.title}</h1>
+      <h1 className="text-3xl font-bold mb-4 text-secondaryAccent">{thread.title}</h1>
       <div className="mb-8">
         <div className="flex items-center space-x-2 mb-2">
           <Avatar>
@@ -290,7 +290,7 @@ export default function Discussion() {
           placeholder="Write your comment..."
           className="mb-2"
         />
-        <Button onClick={() => handleAddComment(null, newCommentContent)}>
+        <Button onClick={() => handleAddComment(null, newCommentContent)} className="bg-primaryAccent">
           Post Comment
         </Button>
       </div>

@@ -14,12 +14,12 @@ const FactCard: React.FC<FactCardProps> = ({title, figure, baseText, icon: Icon}
   return (
     <Card className="w-[18rem] max-w-md mx-auto transition-all duration-300 ease-in-out hover:scale-[1.02]">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold text-gray-500 flex justify-center">{title}</CardTitle>
+        <CardTitle className="text-xl font-semibold text-primaryAccent flex justify-center">{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center">
         <Icon className="h-14 w-14 text-gray-700 mb-4" />
         <div className="text-5xl font-bold text-gray-700">{figure}</div>
-        <p className="text-gray-500 mt-2">{baseText}</p>
+        <p className="text-gray-700 mt-2">{baseText}</p>
       </CardContent>
     </Card>
   );

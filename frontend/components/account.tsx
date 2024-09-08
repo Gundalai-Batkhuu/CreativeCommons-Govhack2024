@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Database, Settings, Pencil, Trash2, Share2, ChartNoAxesCombined } from "lucide-react"
+import { useRouter } from 'next/navigation'
 
 interface KnowledgeBase {
   id: string
@@ -23,6 +24,7 @@ export default function TwoPaneUI() {
   const [activeTab, setActiveTab] = useState('knowledge-bases')
   const [knowledgeBases, setKnowledgeBases] = useState(mockKnowledgeBases)
   const [showNotification, setShowNotification] = useState(false)
+  const router = useRouter()
 
   const handleDelete = (id: string) => {
     setKnowledgeBases(knowledgeBases.filter(kb => kb.id !== id))
@@ -30,6 +32,21 @@ export default function TwoPaneUI() {
 
   const onShare = (id: string) => {
     setShowNotification(true)
+  }
+
+  const showAnalyticStats = () => {
+    router.push(`/analytics`)
+    setActiveTab('analytics')
+  }
+
+  const showAnalyticsPage = () => {
+    router.push(`/analytics`)
+    setActiveTab('dashboard')
+  }
+
+  const showAccountPage = () => {
+    router.push(`/account`)
+    setActiveTab('knowledge-bases')
   }
 
   useEffect(() => {
@@ -51,20 +68,20 @@ export default function TwoPaneUI() {
               <Button
                 variant={activeTab === 'knowledge-bases' ? 'default' : 'ghost'}
                 className="w-full justify-start"
-                onClick={() => setActiveTab('knowledge-bases')}
+                onClick={showAccountPage}
               >
                 <Database className="mr-2 h-4 w-4" />
-                Knowledge Bases
+                  Knowledge Bases
               </Button>
             </li>
             <li>
               <Button
                 variant={activeTab === 'dashboard' ? 'default' : 'ghost'}
                 className="w-full justify-start"
-                onClick={() => setActiveTab('dashboard')}
+                onClick={showAnalyticsPage}
               >
                 <ChartNoAxesCombined className="mr-2 h-4 w-4" />
-                Analytics
+                  Analytics
               </Button>
             </li>
             <li>
@@ -84,14 +101,14 @@ export default function TwoPaneUI() {
       {/* Right Pane */}
       <div className="w-3/4 p-6 overflow-auto bg-white">
         <div className="py-4 flex items-center">
-        <Database className="h-16 w-16 mr-4" />
-            <h1 className="text-2xl font-bold">Knowledge Bases</h1>
+        <Database className="h-16 w-16 mr-4 text-primaryAccent" onClick={showAnalyticStats} />
+            <h1 className="text-2xl font-bold text-secondaryAccent">Knowledge Bases</h1>
             
         </div>
         
         <div className="grid gap-2">
           {knowledgeBases.map((kb) => (
-            <Card key={kb.id} className="w-full transition-all duration-300 ease-in-out hover:scale-[1.02]">
+            <Card key={kb.id} className="w-full transition-all duration-300 ease-in-out hover:scale-[1.02]" onClick={showAnalyticStats}>
               <CardContent className="flex items-center justify-between p-4 cursor-pointer">
                 <span className="text-lg font-medium">{kb.name}</span>
                 <div className="flex space-x-2">
@@ -139,6 +156,7 @@ export default function TwoPaneUI() {
           ))}
         </div>
       </div>
+
       <div className={`fixed top-20 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg transition-all duration-300 ease-in-out ${showNotification ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}>Added to the knowledge pool!</div>
     </div>
     

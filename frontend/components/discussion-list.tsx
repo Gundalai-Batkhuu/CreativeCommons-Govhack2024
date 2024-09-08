@@ -94,7 +94,7 @@ export default function DiscussionList() {
                 placeholder="Search discussions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 py-6"
+                className="pl-10 py-6 placeholder:text-base"
                 />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             </div>
@@ -146,7 +146,7 @@ export default function DiscussionList() {
                 {discussion.views}
               </Button>
             </div>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="bg-primaryAccent text-white">
               Read More
             </Button>
           </CardFooter>
