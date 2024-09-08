@@ -10,7 +10,7 @@ export const ManualDocumentUploader = ({ userId }: ManualDocumentUploaderProps) 
   const [link, setLink] = useState('');
   const [documentId, setDocumentId] = useState('');
   const [message, setMessage] = useState('');
-  const apiUrl = ApiEndpoint.MANUAL_DOCUMENT_UPLOAD;
+  const apiUrl = ApiEndpoint.QUERY_DOCUMENT;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
