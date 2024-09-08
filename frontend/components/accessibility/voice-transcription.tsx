@@ -73,7 +73,10 @@ export default function VoiceTranscription({ setTranscriptionValue }: VoiceTrans
 
   return (
     <div>
-      <button onClick={isRecording ? stopRecording : startRecording}>
+      <button
+        type="button"
+        onClick={isRecording ? stopRecording : startRecording}
+      >
         {isRecording ? <MicOff /> : <Mic />}
       </button>
     </div>

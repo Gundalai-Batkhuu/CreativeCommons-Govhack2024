@@ -45,6 +45,11 @@ export function Header() {
                 </Link>
             </div>
             <div className="flex items-center justify-end space-x-4">
+                <Link href="/">
+                    <Button variant="ghost" className="text-base">
+                        Search
+                    </Button>
+                </Link>
                 <Link href="/chat">
                     <Button variant="ghost" className="text-base">
                         Chat
