@@ -13,12 +13,12 @@ export function ProfileIcon({ name }: ProfileIconProps) {
 
   return (
     <Avatar.Root
-      className="flex size-8 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-xs font-medium uppercase text-muted-foreground"
+      className="flex size-8 shrink-0 select-none items-center justify-center rounded-full bg-purple-500 text-xs font-medium uppercase text-white"
     >
       <Avatar.Image
         className="h-full w-full rounded-[inherit] object-cover"
-        src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&w=128&h=128&dpr=2&q=80"
-        alt="Pedro Duarte"
+        src="/avatar/av6e.png"
+        alt="user"
       />
       <Avatar.Fallback
         className="flex h-full w-full items-center justify-center"
