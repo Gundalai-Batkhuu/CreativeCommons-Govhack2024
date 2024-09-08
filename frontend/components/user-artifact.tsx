@@ -1,15 +1,14 @@
 import React from 'react'
 import { ChevronDown, ChevronRight } from 'lucide-react'
-import { Artefact } from '@/lib/types'
+import { Artifact } from '@/lib/types'
 import { DeleteDocumentButton } from '@/components/delete-document-button'
 
 interface UserArtifactProps {
-  artifact: Artefact
+  artifact: Artifact
   isExpanded: boolean
   isSelected: boolean
   onToggleExpand: () => void
   onSelect: () => void
-  userId: string
   onDelete: () => void
 }
 
@@ -23,18 +22,17 @@ export function UserArtifact({
   isSelected,
   onToggleExpand,
   onSelect,
-  userId,
   onDelete
 }: UserArtifactProps) {
   return (
     <div
       className={`cursor-pointer ${
-        isSelected ? 'bg-accent' : ''
-      } border p-2 rounded`}
+        isSelected ? 'bg-gray-300 dark:bg-accent-dark' : 'bg-background dark:bg-background-dark'
+      } border border-border dark:border-border-dark p-2 rounded transition-colors duration-200`}
     >
       <div className="flex items-center justify-between space-x-2 text-sm">
         <div className="flex items-center space-x-2 flex-grow">
-          <button onClick={onToggleExpand} className="p-1 flex-shrink-0">
+          <button onClick={onToggleExpand} className="p-1 flex-shrink-0 text-foreground dark:text-foreground-dark hover:bg-accent dark:hover:bg-accent-dark rounded">
             {isExpanded ? (
               <ChevronDown size={16} />
             ) : (
@@ -44,29 +42,26 @@ export function UserArtifact({
           <div
             className={`cursor-pointer ${
               isSelected ? 'font-bold' : ''
-            } truncate`}
+            } truncate text-foreground dark:text-foreground-dark hover:text-accent-foreground dark:hover:text-accent-foreground-dark`}
             onClick={onSelect}
-            title={artifact.document_id}
+            title={artifact.title}
           >
-            {artifact.document_id === ''
-              ? truncateString(artifact.document_id, 20)
-              : truncateString(artifact.document_name, 20)}
+            {truncateString(artifact.title, 20)}
           </div>
         </div>
         <DeleteDocumentButton
-          document_id={artifact.document_id}
-          user_id={userId}
+          documentId={artifact.id}
           onSuccess={onDelete}
         />
       </div>
       {isExpanded && (
-        <div className="ml-6 mt-2 text-sm">
-          <p>Name: {artifact.document_name}</p>
-          <p>Description: {artifact.description}</p>
-          <p>Vanilla Links: {artifact.vanilla_links.length}</p>
-          <p>File Links: {artifact.file_links.length}</p>
-          <p>Files: {artifact.files.length}</p>
-          <p>Captured Documents: {artifact.captured_documents.length}</p>
+        <div className="ml-6 mt-2 text-sm text-foreground dark:text-foreground-dark">
+          <p><span className="font-bold">Title:</span> {artifact.title}</p>
+          <p><span className="font-bold">Description:</span> {artifact.description}</p>
+          <p><span className="font-bold">Category:</span> {artifact.category}</p>
+          <p><span className="font-bold">Engagement:</span> {artifact.engagement}</p>
+          <p><span className="font-bold">Featured:</span> {artifact.featured ? 'Yes' : 'No'}</p>
+          <p><span className="font-bold">Resources:</span> {artifact.resources.length}</p>
         </div>
       )}
     </div>

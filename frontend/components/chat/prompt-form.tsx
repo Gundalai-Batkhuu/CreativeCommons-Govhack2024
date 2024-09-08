@@ -13,15 +13,16 @@ import {
 } from '../ui/tooltip'
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { useRouter } from 'next/navigation'
+import VoiceTranscription from '@/components/accessibility/voice-transcription'
 
 export function PromptForm({
   input,
   setInput,
-  onSubmit  // Add this prop
+  onSubmit
 }: {
   input: string
   setInput: (value: string) => void
-  onSubmit: (value: string) => Promise<void>  // Add this prop type
+  onSubmit: (value: string) => Promise<void>
 }) {
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
@@ -37,7 +38,6 @@ export function PromptForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Blur focus on mobile
     if (window.innerWidth < 600) {
       inputRef.current?.blur()
     }
@@ -46,7 +46,6 @@ export function PromptForm({
     setInput('')
     if (!value) return
 
-    // Call the onSubmit prop instead of directly handling the submission here
     await onSubmit(value)
   }
 
@@ -84,7 +83,10 @@ export function PromptForm({
           value={input}
           onChange={e => setInput(e.target.value)}
         />
-        <div className="absolute right-0 top-[13px] sm:right-4">
+        <div className="absolute right-0 top-[13px] flex items-center space-x-5 sm:right-4">
+          <div className={"pt-2"}>
+            <VoiceTranscription setTranscriptionValue={setInput} />
+          </div>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button type="submit" size="icon" disabled={input === ''}>

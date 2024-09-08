@@ -1,4 +1,4 @@
-from .llm import LLM
+from app.dependencies.llm import LLM
 from app.const import ModelProvider
 from langchain_experimental.graph_transformers import LLMGraphTransformer
 from langchain_community.graphs import Neo4jGraph

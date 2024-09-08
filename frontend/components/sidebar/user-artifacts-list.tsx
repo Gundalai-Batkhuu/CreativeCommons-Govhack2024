@@ -2,29 +2,25 @@
 
 import * as React from 'react'
 import { useUserArtifactsStore } from '@/lib/store/userArtifactsStore'
-import { Artefact } from '@/lib/types'
+import { Artifact } from '@/lib/types'
 import { useEffect, useState, useCallback } from 'react'
 import { UserArtifact } from '@/components/user-artifact'
 
-interface UserArtifactsListProps {
-  userId: string
-}
-
-export function UserArtifactsList({ userId }: UserArtifactsListProps) {
-  const { artifacts, isLoading, error, fetchUserArtifacts, selectedArtifactId, setSelectedArtifactId } = useUserArtifactsStore()
-  const [expandedId, setExpandedId] = useState<string | null>(null)
+export function UserArtifactsList() {
+  const { artifacts, isLoading, error, fetchArtifacts, selectedArtifactId, setSelectedArtifactId } = useUserArtifactsStore()
+  const [expandedId, setExpandedId] = useState<number | null>(null)
 
   const refreshArtifacts = useCallback(() => {
-    fetchUserArtifacts(userId)
-  }, [userId, fetchUserArtifacts])
+    fetchArtifacts()
+  }, [fetchArtifacts])
 
   useEffect(() => {
     refreshArtifacts()
   }, [refreshArtifacts])
 
   useEffect(() => {
-    if (artifacts && artifacts.artefact_tree.length > 0) {
-      const firstArtifactId = artifacts.artefact_tree[0].document_id
+    if (artifacts && artifacts.length > 0) {
+      const firstArtifactId = artifacts[0].id
       setExpandedId(firstArtifactId)
       setSelectedArtifactId(firstArtifactId)
     }
@@ -32,13 +28,13 @@ export function UserArtifactsList({ userId }: UserArtifactsListProps) {
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
-  if (!artifacts || artifacts.artefact_tree.length === 0) return <div>No artifacts found.</div>
+  if (!artifacts || artifacts.length === 0) return <div>No artifacts found.</div>
 
-  const toggleExpand = (id: string) => {
+  const toggleExpand = (id: number) => {
     setExpandedId(expandedId === id ? null : id)
   }
 
-  const handleSelect = (id: string) => {
+  const handleSelect = (id: number) => {
     setSelectedArtifactId(id === selectedArtifactId ? null : id)
   }
 
@@ -49,15 +45,14 @@ export function UserArtifactsList({ userId }: UserArtifactsListProps) {
       </div>
       <div className="flex-grow overflow-auto">
         <div className="space-y-2">
-          {artifacts.artefact_tree.map((artifact: Artefact) => (
+          {artifacts.map((artifact: Artifact) => (
             <UserArtifact
-              key={artifact.document_id}
+              key={artifact.id}
               artifact={artifact}
-              isExpanded={expandedId === artifact.document_id}
-              isSelected={selectedArtifactId === artifact.document_id}
-              onToggleExpand={() => toggleExpand(artifact.document_id)}
-              onSelect={() => handleSelect(artifact.document_id)}
-              userId={userId}
+              isExpanded={expandedId === artifact.id}
+              isSelected={selectedArtifactId === artifact.id}
+              onToggleExpand={() => toggleExpand(artifact.id)}
+              onSelect={() => handleSelect(artifact.id)}
               onDelete={refreshArtifacts}
             />
           ))}

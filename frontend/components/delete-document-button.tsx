@@ -1,39 +1,20 @@
 import React from 'react'
 import { documentService } from '@/lib/services/document-service'
-import { DeleteDocument } from '@/lib/types'
 
-interface DeleteDocumentButtonProps extends DeleteDocument {
-  onSuccess?: () => void
+interface DeleteDocumentButtonProps {
+  documentId: number;
+  onSuccess?: () => void;
 }
 
 export const DeleteDocumentButton = ({
-  user_id,
-  document_id,
+  documentId,
   onSuccess
 }: DeleteDocumentButtonProps) => {
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-
-    try {
-      const document: DeleteDocument = {
-        user_id: user_id,
-        document_id: document_id
-      }
-
-      const result = await documentService.deleteDocument(document)
-      console.log('Document deletion successful:', result)
-
-      if (onSuccess) {
-        onSuccess()
-      }
-
-    } catch (error) {
-      console.error('Error during document deletion:', error)
-    }
   }
-
   return (
     <button
       type="button"

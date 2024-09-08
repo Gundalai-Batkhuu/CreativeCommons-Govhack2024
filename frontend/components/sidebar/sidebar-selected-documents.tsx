@@ -31,7 +31,7 @@ export function SidebarSelectedDocuments({ className, userId }: SidebarProps) {
             {selectedItems.length > 0 && (
               <div className="space-y-4">
                 <div className="flex justify-center items-center">
-                  <p className="text-center text-white">
+                  <p className="text-center dark:text-white">
                     {selectedItems.length} item
                     {selectedItems.length > 1 ? 's' : ''} selected
                   </p>
@@ -40,19 +40,26 @@ export function SidebarSelectedDocuments({ className, userId }: SidebarProps) {
                   {selectedItems.map((item, index) => (
                     <li
                       key={index}
-                      className="bg-white/10 p-3 rounded flex justify-between items-start"
+                      className="bg-gray-100 dark:bg-white/10 p-3 rounded flex justify-between items-start"
                     >
                       <div>
-                        <div className="font-medium text-blue-400">
+                        <div className="font-medium text-gray-600 dark:text-gray-400">
                           {item.title}
                         </div>
-                        <div className="text-sm text-gray-300 break-all mt-1">
-                          {item.link}
+                        <div className="text-sm dark:text-gray-300 break-all mt-1">
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 dark:text-blue-400 hover:underline"
+                          >
+                            {item.link}
+                          </a>
                         </div>
                       </div>
                       <button
                         onClick={() => removeSelectedItem(item)}
-                        className="text-gray-400 hover:text-white transition-colors w-6 h-6 flex items-center justify-center"
+                        className="text-gray-400 hover:text-black dark:hover:text-white transition-colors w-6 h-6 flex items-center justify-center"
                         aria-label="Remove item"
                       >
                         &#10005;
@@ -77,9 +84,7 @@ export function SidebarSelectedDocuments({ className, userId }: SidebarProps) {
                 />
               </div>
               <CreateDocumentButton
-                user_id={userId}
                 links={selectedLinks}
-                document_alias={docAlias}
                 description={docDescription}
               />
             </div>

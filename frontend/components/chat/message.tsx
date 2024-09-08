@@ -1,14 +1,15 @@
 'use client'
-
-import { IconOpenAI, IconUser } from '../ui/icons'
-import { cn } from '../../lib/utils'
+import { Bot } from 'lucide-react';
+import { IconUser } from '../ui/icons'
+import { cn } from '@/lib/utils'
 import { spinner } from './spinner'
 import { CodeBlock } from '../ui/codeblock'
 import { MemoizedReactMarkdown } from '../markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import { StreamableValue } from 'ai/rsc'
-import { useStreamableText } from '../../lib/hooks/use-streamable-text'
+import { useStreamableText } from '@/lib/hooks/use-streamable-text'
+import { ChatMessageActions } from '@/components/chat/chat-message-actions'
 
 export function UserMessage({ children }: { children: React.ReactNode }) {
   return (
@@ -35,7 +36,7 @@ export function BotMessage({
   return (
     <div className={cn('group relative flex items-start md:-ml-12', className)}>
       <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
-        <IconOpenAI />
+        <Bot />
       </div>
       <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
         <MemoizedReactMarkdown
@@ -79,6 +80,7 @@ export function BotMessage({
         >
           {text}
         </MemoizedReactMarkdown>
+        <ChatMessageActions message={text} />
       </div>
     </div>
   )
@@ -96,7 +98,7 @@ export function SpinnerMessage() {
   return (
     <div className="group relative flex items-start md:-ml-12">
       <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
-        <IconOpenAI />
+        <Bot />
       </div>
       <div className="ml-4 h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden px-1">
         {spinner}
