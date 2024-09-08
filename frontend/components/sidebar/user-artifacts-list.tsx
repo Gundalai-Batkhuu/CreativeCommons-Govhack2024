@@ -20,7 +20,7 @@ export function UserArtifactsList() {
 
   useEffect(() => {
     if (artifacts && artifacts.length > 0) {
-      const firstArtifactId = artifacts[0].id
+      const firstArtifactId = 2
       setExpandedId(firstArtifactId)
       setSelectedArtifactId(firstArtifactId)
     }
@@ -41,7 +41,7 @@ export function UserArtifactsList() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between pb-4">
-        <h4 className="text-sm font-medium">Document store</h4>
+        <h4 className="text-sm font-bold">Document store</h4>
       </div>
       <div className="flex-grow overflow-auto">
         <div className="space-y-2">

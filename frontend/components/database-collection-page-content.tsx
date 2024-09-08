@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useMemo, useEffect } from "react"
-import { SearchIcon, ListOrderedIcon, ChevronDownIcon } from "@/components/ui/icons"
+import RedFlame, { SearchIcon, ListOrderedIcon, ChevronDownIcon } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
-import { Flame } from "lucide-react"
+
 import { useUserArtifactsStore } from "@/lib/store/userArtifactsStore"
 import Image from 'next/image'
 
@@ -30,7 +30,7 @@ export default function DatabaseCollectionPageContent() {
   const [search, setSearch] = useState<string>("")
   const [filters, setFilters] = useState<Filters>({
     category: [],
-    engagement: { min: 0, max: 1000 },
+    engagement: { min: 0, max: 100 },
   })
   const [sort, setSort] = useState<SortOption>("featured")
 
@@ -104,20 +104,23 @@ export default function DatabaseCollectionPageContent() {
       <header className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Database Collection</h1>
         <p className="text-muted-foreground">
-          Explore and compare a wide range of database solutions for your project.
+          Explore and compare a wide range of database solutions for your
+          project.
         </p>
       </header>
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <div className="relative w-full max-w-md flex items-center">
-            <SearchIcon className="absolute left-4 text-muted-foreground pointer-events-none" />
-            <Input
-              type="text"
-              placeholder="Search databases..."
-              className="pl-12 w-full"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+          <div className="w-1/3">
+            <div className="relative flex items-center space-x-2">
+              <SearchIcon className="absolute left-3 text-muted-foreground pointer-events-none" />
+              <Input
+                type="text"
+                placeholder="Search databases..."
+                className="pl-10 w-full"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -127,10 +130,19 @@ export default function DatabaseCollectionPageContent() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuRadioGroup value={sort} onValueChange={handleSortChange}>
-                <DropdownMenuRadioItem value="featured">Featured</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="low">Engagement: Low to High</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="high">Date: Recent to Old</DropdownMenuRadioItem>
+              <DropdownMenuRadioGroup
+                value={sort}
+                onValueChange={handleSortChange}
+              >
+                <DropdownMenuRadioItem value="featured">
+                  Featured
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="low">
+                  Engagement: Low to High
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="high">
+                  Date: Recent to Old
+                </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -146,7 +158,7 @@ export default function DatabaseCollectionPageContent() {
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Category</h3>
                   <div className="space-y-2">
-                    {["Relational", "NoSQL", "Search"].map((category) => (
+                    {['Government Resources', 'Social Services', 'Public Information', 'Education'].map(category => (
                       <Label key={category} className="flex items-center gap-2">
                         <Checkbox
                           checked={filters.category.includes(category)}
@@ -158,7 +170,9 @@ export default function DatabaseCollectionPageContent() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Engagement rate</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Engagement rate
+                  </h3>
                   <div className="space-y-2">
                     <div className="flex items-center gap-4">
                       <span>Min:</span>
@@ -167,7 +181,12 @@ export default function DatabaseCollectionPageContent() {
                         min={0}
                         max={filters.engagement.max}
                         value={filters.engagement.min}
-                        onChange={(e) => handleEngagementChange('min', parseInt(e.target.value))}
+                        onChange={e =>
+                          handleEngagementChange(
+                            'min',
+                            parseInt(e.target.value)
+                          )
+                        }
                       />
                     </div>
                     <div className="flex items-center gap-4">
@@ -175,9 +194,14 @@ export default function DatabaseCollectionPageContent() {
                       <Input
                         type="number"
                         min={filters.engagement.min}
-                        max={1000}
+                        max={100}
                         value={filters.engagement.max}
-                        onChange={(e) => handleEngagementChange('max', parseInt(e.target.value))}
+                        onChange={e =>
+                          handleEngagementChange(
+                            'max',
+                            parseInt(e.target.value)
+                          )
+                        }
                       />
                     </div>
                   </div>
@@ -188,40 +212,47 @@ export default function DatabaseCollectionPageContent() {
         </Accordion>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {filteredArtifacts.map((artifact) => (
-          <Card key={artifact.id} className="flex flex-col h-full">
-            <Link href="#" prefetch={false}>
+        {filteredArtifacts.map(artifact => (
+          <Link href="/chat" prefetch={false} key={artifact.id}>
+            <Card key={artifact.id} className="flex flex-col h-full">
               <Image
                 src={artifact.image}
                 alt={artifact.title}
                 width={400}
                 height={300}
                 className="w-full h-48 object-cover rounded-t-lg"
-                style={{ aspectRatio: "400/300", objectFit: "cover" }}
+                style={{ aspectRatio: '400/300', objectFit: 'cover' }}
               />
-            </Link>
-            <CardContent className="p-4 flex flex-col flex-grow">
-              <div className="flex flex-col flex-grow">
-                <div className="h-14 mb-2">
-                  <Link href="#" className="text-lg font-semibold hover:underline line-clamp-2" prefetch={false}>
-                    {artifact.title}
-                  </Link>
+
+              <CardContent className="p-4 flex flex-col flex-grow">
+                <div className="flex flex-col flex-grow">
+                  <div className="h-14 mb-2">
+                    <Link
+                      href="#"
+                      className="text-lg font-semibold hover:underline line-clamp-2"
+                      prefetch={false}
+                    >
+                      {artifact.title}
+                    </Link>
+                  </div>
+                  <p className="text-muted-foreground text-sm flex-grow line-clamp-3">
+                    {artifact.description}
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm flex-grow line-clamp-3">{artifact.description}</p>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center text-primary font-semibold">
-                  <Flame className="pb-1" />
-                  <span>{artifact.engagement}</span>
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center text-primary font-semibold">
+                    <RedFlame className="pb-1" />
+                    <span>{artifact.engagement}</span>
+                  </div>
+                  {artifact.featured && (
+                    <Badge variant="secondary" className="px-2 py-1 text-xs">
+                      Featured
+                    </Badge>
+                  )}
                 </div>
-                {artifact.featured && (
-                  <Badge variant="secondary" className="px-2 py-1 text-xs">
-                    Featured
-                  </Badge>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

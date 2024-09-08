@@ -55,7 +55,7 @@ export function Header() {
                         Discussions
                     </Button>
                 </Link>
-                <Link href="/marketplace">
+                <Link href="/database-collection">
                     <Button variant="ghost" className="text-base">
                         Knowledge Pool
                     </Button>

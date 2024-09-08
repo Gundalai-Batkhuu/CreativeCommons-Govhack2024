@@ -11,7 +11,7 @@ export async function DocumentViewerSidebarContainer() {
 
   return (
     <DocumentViewerSidebar className="peer absolute inset-y-0 right-0 z-30 hidden translate-x-full border-l bg-muted duration-300 ease-in-out data-[state=open]:translate-x-0 lg:flex lg:w-[250px] xl:w-[300px]">
-      <UserArtifactsList userId={session.user.id} />
+      <UserArtifactsList />
     </DocumentViewerSidebar>
   )
 }
